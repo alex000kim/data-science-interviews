@@ -17,7 +17,12 @@ A case when we have both features (the matrix X) and the labels (the vector y)
 
 **What is regression? Which models can you use to solve a regression problem? 👶**
 
-Regression is a part of supervised ML. Regression models predict a real number
+Regression is a part of supervised ML. Regression models investigate the relationship between a dependent (target) and independent variable (s) (predictor).
+Here are some common regression models:
+- *Linear Regression* establishes a linear relationship between target and predictor (s). It predicts a numeric value and has a shape of a straight line.
+- *Polynomial Regression* has a regression equation with the power of independent variable more than 1. It is a curve that fits into the data points.
+- *Ridge Regression* helps when predictors are highly correlated (multicollinearity problem). It penalizes the squares of regression coefficients but doesn’t allow to reach zeros (uses l2 regularization).
+- *Lasso Regression* penalizes the absolute values of regression coefficients and allow reach absolute zero for some coefficient (allow feature selection).
 
 <br/>
 
@@ -51,13 +56,25 @@ y = B0 + B1*x1 + ... + Bn * xN
 
 **What’s the normal distribution? Why do we care about it? 👶**
 
-Answer here
+The normal distribution is a continuous probability distribution whose probability density function takes the following formula:
+
+![formula](https://mathworld.wolfram.com/images/equations/NormalDistribution/NumberedEquation1.gif)
+
+where μ is the mean and σ is the standard deviation of the distribution. 
+
+The normal distribution derives its importance from the **Central Limit Theorem**, which states that if we draw a large enough number of samples, their mean will follow a normal distribution regardless of the initial distribution of the sample, i.e **the distribution of the mean of the samples is normal**. It is important that each sample is independent from the other. 
+
+This is powerful because it helps us study processes whose population distribution is unknown to us. 
+
 
 <br/>
 
 **How do we check if a variable follows the normal distribution? ‍⭐️**
 
-Answer here
+1. Plot a histogram out of the sampled data. If you can fit the bell-shaped "normal" curve to the histogram, then the hypothesis that the underlying random variable follows the normal distribution can not be rejected.
+2. Check Skewness and Kurtosis of the sampled data. Zero-skewness and zero-kurtosis are typical for a normal distribution, so the farther away from 0, the more non-normal the distribution.
+3. Use Kolmogorov-Smirnov or/and Shapiro-Wilk tests for normality. They take into account both Skewness and Kurtosis simultaneously.
+4. Check for Quantile-Quantile plot. It is a scatterplot created by plotting two sets of quantiles against one another. Normal Q-Q plot place the data points in a roughly straight line.
 
 <br/>
 
@@ -75,7 +92,7 @@ Answer here
 
 **What is gradient descent? How does it work? ‍⭐️**
 
-Answer here
+Gradient descent is an algorithm that uses calculus concept of gradient to try and reach local or global minima. It works by taking the negative of the gradient in a point of a given function, and updating that point repeatedly using the calculated negative gradient, until the algorithm reaches a local or global minimum, which will cause future iterations of the algorithm to return values that are equal or too close to the current point. It is widely used in machine learning applications.
 
 <br/>
 
@@ -87,19 +104,25 @@ Normal equations are equations obtained by setting equal to zero the partial der
 
 **What is SGD  —  stochastic gradient descent? What’s the difference with the usual gradient descent? ‍⭐️**
 
-Answer here
+In both gradient descent (GD) and stochastic gradient descent (SGD), you update a set of parameters in an iterative manner to minimize an error function.
+
+While in GD, you have to run through ALL the samples in your training set to do a single update for a parameter in a particular iteration, in SGD, on the other hand, you use ONLY ONE or SUBSET of training sample from your training set to do the update for a parameter in a particular iteration. If you use SUBSET, it is called Minibatch Stochastic gradient Descent.
 
 <br/>
 
 **Which metrics for evaluating regression models do you know? 👶**
 
-Answer here
+1. Mean Squared Error(MSE)
+2. Root Mean Squared Error(RMSE)
+3. Mean Absolute Error(MAE)
+4. R² or Coefficient of Determination
+5. Adjusted R²
 
 <br/>
 
 **What are MSE and RMSE? 👶**
 
-Answer here
+MSE stands for <strong>M</strong>ean <strong>S</strong>quare <strong>E</strong>rror while RMSE stands for <strong>R</strong>oot <strong>M</strong>ean <strong>S</strong>quare <strong>E</strong>rror. They are metrics with which we can evaluate models.
 
 <br/>
 
@@ -114,13 +137,16 @@ When your model perform very well on your training set but can't generalize the 
 
 **How to validate your models? 👶**
 
-Answer here
+One of the most common approaches is splitting data into train, validation and test parts.
+Models are trained on train data, hyperparameters (for example early stopping) are selected based on the validation data, the final measurement is done on test dataset.
+Another approach is cross-validation: split dataset into K folds and each time train models on training folds and measure the performance on the validation folds.
+Also you could combine these approaches: make a test/holdout dataset and do cross-validation on the rest of the data. The final quality is measured on test dataset.
 
 <br/>
 
 **Why do we need to split our data into three parts: train, validation, and test? 👶**
 
-Answer here
+The training set is used to fit the model, i.e. to train the model with the data. The validation set is then used to provide an unbiased evaluation of a model while fine-tuning hyperparameters. This improves the generalization of the model. Finally, a test data set which the model has never "seen" before should be used for the final evaluation of the model. This allows for an unbiased evaluation of the model. The evaluation should never be performed on the same data that is used for training. Otherwise the model performance would not be representative.
 
 <br/>
 
@@ -132,13 +158,15 @@ Cross-validation is the process to separate your total training set into two sub
 
 **What is K-fold cross-validation? 👶**
 
-Answer here
+K fold cross validation is a method of cross validation where we select a hyperparameter k. The dataset is now divided into k parts. Now, we take the 1st part as validation set and remaining k-1 as training set. Then we take the 2nd part as validation set and remaining k-1 parts as training set. Like this, each part is used as validation set once and the remaining k-1 parts are taken together and used as training set.
+It should not be used in a time series data.
 
 <br/>
 
 **How do we choose K in K-fold cross-validation? What’s your favorite K? 👶**
 
-Answer here
+There are two things to consider while deciding K: the number of models we get and the size of validation set. We do not want the number of models to be too less, like 2 or 3. At least 4 models give a less biased decision on the metrics. On the other hand, we would want the dataset to be at least 20-25% of the entire data. So that at least a ratio of 3:1 between training and validation set is maintained. <br/>
+I tend to use 4 for small datasets and 5 for large ones as K.
 
 <br/>
 
@@ -147,31 +175,38 @@ Answer here
 
 **What is classification? Which models would you use to solve a classification problem? 👶**
 
-Answer here
+Classification problems are problems in which our prediction space is discrete, i.e. there is a finite number of values the output variable can be. Some models which can be used to solve classification problems are: logistic regression, decision tree, random forests, multi-layer perceptron, one-vs-all, amongst others.
 
 <br/>
 
 **What is logistic regression? When do we need to use it? 👶**
 
-Answer here
+Logistic regression is a Machine Learning algorithm that is used for binary classification classification. You should use logistic regression when your Y variable takes only two values, e.g. True and False, "spam" and "not spam", "churn" and "not churn" and so on. The variable is said to be a "binary" or "dichotomous".
 
 <br/>
 
 **Is logistic regression a linear model? Why? 👶**
 
-Answer here
+Yes, Logistic Regression is considered a generalized linear model because the outcome always depends on the sum of the inputs and parameters. Or in other words, the output cannot depend on the product (or quotient, etc.) of its parameters.
 
 <br/>
 
 **What is sigmoid? What does it do? 👶**
 
-Answer here
+A sigmoid function is a type of activation function, and more specifically defined as a squashing function. Squashing functions limit the output to a range between 0 and 1, making these functions useful in the prediction of probabilities.
 
 <br/>
 
 **How do we evaluate classification models? 👶**
 
-Answer here
+Depending on the classification problem, we can use the following evaluation metrics:
+
+1. Accuracy
+2. Precision
+3. Recall
+4. F1 Score
+5. Logistic loss (also known as Cross-entropy loss)
+6. Jaccard similarity coefficient score
 
 <br/>
 
@@ -212,7 +247,7 @@ Most of the performance metrics for classification models are based on the value
 * P = TP / (TP + FP) and R = TP / (TP + FN).
 * Where TP is true positives, FP is false positives and FN is false negatives
 * In both cases the score of 1 is the best: we get no false positives or false negatives and only true positives.
-* F1 is a combination of both precision and recall in one score:
+* F1 is a combination of both precision and recall in one score (harmonic mean):
 * F1 = 2 * PR / (P + R). 
 * Max F score is 1 and min is 0, with 1 being the best.
 
@@ -268,7 +303,7 @@ Answer here
 
 **Why do we need one-hot encoding? ‍⭐️**
 
-Answer here
+If we simply encode categorical variables with a Label encoder, they become ordinal which can lead to undesirable consequences. In this case, linear models will treat category with id 4 as twice better than a category with id 2. One-hot encoding allows us to represent a categorical variable in a numerical vector space which ensures that vectors of each category have equal distances between each other. This approach is not suited for all situations, because by using it with categorical variables of high cardinality (e.g. customer id) we will encounter problems that come into play because of the curse of dimensionality.
 
 <br/>
 
@@ -307,7 +342,7 @@ Answer here
 
 **How does L2 regularization look like in a linear model? ‍⭐️**
 
-Answer here
+L2 regularization adds a penalty term to our cost function which is equal to the sum of squares of models coefficients multiplied by a lambda hyperparameter. This technique makes sure that the coefficients are close to zero and is widely used in cases when we have a lot of features that might correlate with each other.
 
 <br/>
 
@@ -388,7 +423,7 @@ Answer here
 
 **Can we use L1 regularization for feature selection? ‍⭐️**
 
-Answer here
+Yes, because the nature of L1 regularization will lead to sparse coefficients of features. Feature selection can be done by keeping only features with non-zero coefficients. 
 
 <br/>
 
@@ -549,15 +584,20 @@ Answer here
 
 ## Parameter tuning
 
-**Which parameter tuning strategies (in general) do you know? ‍⭐️**
+**Which hyper-parameter tuning strategies (in general) do you know? ‍⭐️**
 
-Answer here
+There are several strategies for hyper-tuning but I would argue that the three most popular nowadays are the following:
+* <b>Grid Search</b> is an exhaustive approach such that for each hyper-parameter, the user needs to <i>manually</i> give a list of values for the algorithm to try. After these values are selected, grid search then evaluates the algorithm using each and every combination of hyper-parameters and returns the combination that gives the optimal result (i.e. lowest MAE). Because grid search evaluates the given algorithm using all combinations, it's easy to see that this can be quite computationally expensive and can lead to sub-optimal results specifically since the user needs to specify specific values for these hyper-parameters, which is prone for error and requires domain knowledge.
+
+* <b>Random Search</b> is similar to grid search but differs in the sense that rather than specifying which values to try for each hyper-parameter, an upper and lower bound of values for each hyper-parameter is given instead. With uniform probability, random values within these bounds are then chosen and similarly, the best combination is returned to the user. Although this seems less intuitive, no domain knowledge is necessary and theoretically much more of the parameter space can be explored.
+
+* In a completely different framework, <b>Bayesian Optimization</b> is thought of as a more statistical way of optimization and is commonly used when using neural networks, specifically since one evaluation of a neural network can be computationally costly. In numerous research papers, this method heavily outperforms Grid Search and Random Search and is currently used on the Google Cloud Platform as well as AWS. Because an in-depth explanation requires a heavy background in bayesian statistics and gaussian processes (and maybe even some game theory), a "simple" explanation is that a much simpler/faster <i>acquisition function</i> intelligently chooses (using a <i>surrogate function</i> such as probability of improvement or GP-UCB) which hyper-parameter values to try on the computationally expensive, original algorithm. Using the result of the initial combination of values on the expensive/original function, the acquisition function takes the result of the expensive/original algorithm into account and uses it as its prior knowledge to again come up with another set of hyper-parameters to choose during the next iteration. This process continues either for a specified number of iterations or for a specified amount of time and similarly the combination of hyper-parameters that performs the best on the expensive/original algorithm is chosen.
+
 
 <br/>
 
 **What’s the difference between grid search parameter tuning strategy and random search? When to use one or another? ‍⭐️**
-
-Answer here
+For specifics, refer to the above answer.
 
 <br/>
 
@@ -584,7 +624,7 @@ Answer here
 
 **What are the problems with sigmoid as an activation function? ‍⭐️**
 
-Answer here
+The output of the sigmoid function for large positive or negative numbers is almost zero. From this comes the problem of vanishing gradient — during the backpropagation our net will not learn (or will learn drastically slow). One possible way to solve this problem is to use ReLU activation function.
 
 <br/>
 
@@ -614,7 +654,7 @@ Answer here
 
 **What is dropout? Why is it useful? How does it work? ‍⭐️**
 
-Answer here
+Dropout is a technique that at each training step turns off each neuron with a certain probability of *p*. This way at each iteration we train only *1-p* of neurons, which forces the network not to rely only on the subset of neurons for feature representation. This leads to regularizing effects that are controlled by the hyperparameter *p*.  
 
 <br/>
 
@@ -641,13 +681,13 @@ Answer here
 
 **What’s the learning rate? 👶**
 
-Answer here
+The learning rate is an important hyperparameter that controls how quickly the model is adapted to the problem during the training. It can be seen as the "step width" during the parameter updates, i.e. how far the weights are moved into the direction of the minimum of our optimization problem.
 
 <br/>
 
 **What happens when the learning rate is too large? Too small? 👶**
 
-Answer here
+A large learning rate can accelerate the training. However, it is possible that we "shoot" too far and miss the minimum of the function that we want to optimize, which will not result in the best solution. On the other hand, training with a small learning rate takes more time but it is possible to find a more precise minimum. The downside can be that the solution is stuck in a local minimum, and the weights won't update even if it is not the best possible global solution.
 
 <br/>
 
@@ -746,7 +786,9 @@ Answer here
 
 **What is transfer learning? How does it work? ‍⭐️**
 
-Answer here
+Given a source domain D_S and learning task T_S, a target domain D_T and learning task T_T, transfer learning aims to help improve the learning of the target predictive function f_T in D_T using the knowledge in D_S and T_S, where D_S ≠ D_T,or T_S ≠ T_T. In other words, transfer learning enables to reuse knowledge coming from other domains or learning tasks.
+
+In the context of CNNs, we can use networks that were pre-trained on popular datasets such as ImageNet. We then can use the weights of the layers that learn to represent features and combine them with a new set of layers that learns to map the feature representations to the given classes. Two popular strategies are either to freeze the layers that learn the feature representations completely, or to give them a smaller learning rate.
 
 <br/>
 
@@ -773,19 +815,25 @@ Answer here
 
 **What is bag of words? How we can use it for text classification? ‍⭐️**
 
-Answer here
+Bag of Words is a representation of text that describes the occurrence of words within a document. The order or structure of the words is not considered. For text classification, we look at the histogram of the words within the text and consider each word count as a feature.
 
 <br/>
 
 **What are the advantages and disadvantages of bag of words? ‍⭐️**
 
-Answer here
+Advantages:
+1. Simple to understand and implement.
+
+Disadvantages:
+1. The vocabulary requires careful design, most specifically in order to manage the size, which impacts the sparsity of the document representations.
+2. Sparse representations are harder to model both for computational reasons (space and time complexity) and also for information reasons
+3. Discarding word order ignores the context, and in turn meaning of words in the document. Context and meaning can offer a lot to the model, that if modeled could tell the difference between the same words differently arranged (“this is interesting” vs “is this interesting”), synonyms (“old bike” vs “used bike”).
 
 <br/>
 
 **What are N-grams? How can we use them? ‍⭐️**
 
-Answer here
+The function to tokenize into consecutive sequences of words is called n-grams. It can be used to find out N most co-occurring words (how often word X is followed by word Y) in a given sentence. 
 
 <br/>
 
@@ -797,7 +845,8 @@ Answer here
 
 **What is TF-IDF? How is it useful for text classification? ‍⭐️**
 
-Answer here
+Term Frequency (TF) is a scoring of the frequency of the word in the current document. Inverse Document Frequency(IDF) is a scoring of how rare the word is across documents. It is used in scenario where highy recurring words may not contain as much informational content 
+as the domain specific words. For example, words like “the” that are frequent across all documents therefore need to be less weighted. The Tf-IDF score highlights words that are distinct (contain useful information) in a given document.  
 
 <br/>
 
@@ -809,7 +858,7 @@ Answer here
 
 **Would you prefer gradient boosting trees model or logistic regression when doing text classification with bag of words? ‍⭐️**
 
-Answer here
+Usually logistic regression is better because bag of words creates a matrix with large number of columns. For a huge number of columns logistic regression is usually faster than gradient boosting trees.
 
 <br/>
 
@@ -827,7 +876,11 @@ Answer here
 
 **If you have a sentence with multiple words, you may need to combine multiple word embeddings into one. How would you do it? ‍⭐️**
 
-Answer here
+Approaches ranked from simple to more complex:
+
+1. Take an average over all words
+2. Take a weighted average over all words. Weighting can be done by inverse document frequency (idf part of tf-idf).
+3. Use ML model like LSTM or Transformer.
 
 <br/>
 
@@ -912,19 +965,26 @@ Clustering algorithms group objects such that similar feature points are put int
 ## Dimensionality reduction
 **What is the curse of dimensionality? Why do we care about it? ‍⭐️**
 
-Answer here
+Data in only one dimension is relatively tightly packed. Adding a dimension stretches the points across that dimension, pushing them further apart. Additional dimensions spread the data even further making high dimensional data extremely sparse. We care about it, because it is difficult to use machine learning in sparse spaces.
 
 <br/>
 
 **Do you know any dimensionality reduction techniques? ‍⭐️**
 
-Answer here
+* Singular Value Decomposition (SVD)
+* Principal Component Analysis (PCA)
+* Linear Discriminant Analysis (LDA)
+* T-distributed Stochastic Neighbor Embedding (t-SNE)
+* Autoencoders
+* Fourier and Wavelet Transforms
 
 <br/>
 
 **What’s singular value decomposition? How is it typically used for machine learning? ‍⭐️**
 
-Answer here
+* Singular Value Decomposition (SVD) is a general matrix decomposition method that factors a matrix X into three matrices L (left singular values), Σ (diagonal matrix) and R^T (right singular values).
+* For machine learning, Principal Component Analysis (PCA) is typically used. It is a special type of SVD where the singular values correspond to the eigenvectors and the values of the diagonal matrix are the squares of the eigenvalues. We use these features as they are statistically descriptive.
+* Having calculated the eigenvectors and eigenvalues, we can use the Kaiser-Guttman criterion, a scree plot or the proportion of explained variance to determine the principal components (i.e. the final dimensionality) that are useful for dimensionality reduction.
 
 <br/>
 
@@ -951,7 +1011,12 @@ Answer here
 
 **What is precision and recall at k? ‍⭐️**
 
-Answer here
+Precision at k and recall at k are evaluation metrics for ranking algorithms. Precision at k shows the share of relevant items in the first *k* results of the ranking algorithm. And Recall at k indicates the share of relevant items returned in top *k* results out of all correct answers for a given query. 
+
+Example:
+For a search query "Car" there are 3 relevant products in your shop. Your search algorithm returns 2 of those relevant products in the first 5 search results.
+Precision at 5 = # num of relevant products in search result / k = 2/5 = 40%
+Recall at 5 = # num of relevant products in search result / # num of all relevant products = 2/3 = 66.6%
 
 <br/>
 
@@ -1002,37 +1067,47 @@ Answer here
 
 **What is a recommender system? 👶**
 
-Answer here
+Recommender systems are software tools and techniques that provide suggestions for items that are most likely of interest to a particular user.
 
 <br/>
 
 **What are good baselines when building a recommender system? ‍⭐️**
 
-Answer here
+* A good recommer system should give relevant and personalized information.
+* It should not recommend items the user knows well or finds easily.
+* It should make diverse suggestions.
+* A user should explore new items.
 
 <br/>
 
 **What is collaborative filtering? ‍⭐️**
 
-Answer here
+* Collaborative filtering is the most prominent approach to generate recommendations.
+* It uses the wisdom of the crowd, i.e. it gives recommendations based on the experience of others.
+* A recommendation is calculated as the average of other experiences. 
+* Say we want to give a score that indicates how much user u will like an item i. Then we can calculate it with the experience of N other users U as r_ui = 1/N * sum(v in U) r_vi.
+* In order to rate similar experiences with a higher weight, we can introduce a similarity between users that we use as a multiplier for each rating.
+* Also, as users have an individual profile, one user may have an average rating much larger than another user, so we use normalization techniques (e.g. centering or Z-score normalization) to remove the users' biases.
+* Collaborative filtering does only need a rating matrix as input and improves over time. However, it does not work well on sparse data, does not work for cold starts (see below) and usually tends to overfit. 
 
 <br/>
 
 **How we can incorporate implicit feedback (clicks, etc) into our recommender systems? ‍⭐️**
 
-Answer here
+In comparison to explicit feedback, implicit feedback datasets lack negative examples. For example, explicit feedback can be a positive or a negative rating, but implicit feedback may be the number of purchases or clicks. One popular approach to solve this problem is named weighted alternating least squares (wALS) [Hu, Y., Koren, Y., & Volinsky, C. (2008, December). Collaborative filtering for implicit feedback datasets. In Data Mining, 2008. ICDM'08. Eighth IEEE International Conference on (pp. 263-272). IEEE.]. Instead of modeling the rating matrix directly, the numbers (e.g. amount of clicks) describe the strength in observations of user actions. The model tries to find latent factors that can be used to predict the expected preference of a user for an item.
 
 <br/>
 
 **What is the cold start problem? ‍⭐️**
 
-Answer here
+Collaborative filterung incorporates crowd knowledge to give recommendations for certain items. Say we want to recommend how much a user will like an item, we then will calculate the score using the recommendations of other users for this certain item. We can distinguish between two different ways of a cold start problem now. First, if there is a new item that has not been rated yet, we cannot give any recommendation. Also, when there is a new user, we cannot calculate a similarity to any other user.
 
 <br/>
 
 **Possible approaches to solving the cold start problem? ‍⭐️🚀**
 
-Answer here
+* Content-based filtering incorporates features about items to calculate a similarity between them. In this way, we can recommend items that have a high similarity to items that a user liked already. In this way, we are not dependant on the ratings of other users for a given item anymore and solve the cold start problem for new items.
+* Demographic filtering incorporates user profiles to calculate a similarity between them and solves the cold start problem for new users.
 
 <br/>
 
@@ -1041,44 +1116,48 @@ Answer here
 
 **What is a time series? 👶**
 
-Answer here
+A time series is a set of observations ordered in time usually collected at regular intervals.
 
 <br/>
 
 **How is time series different from the usual regression problem? 👶**
 
-Answer here
+The principle behind causal forecasting is that the value that has to be predicted is dependant on the input features (causal factors). In time series forecasting, the to be predicted value is expected to follow a certain pattern over time.
 
 <br/>
 
 **Which models do you know for solving time series problems? ‍⭐️**
 
-Answer here
+* Simple Exponential Smoothing: approximate the time series with an exponentional function
+* Trend-Corrected Exponential Smoothing (Holt‘s Method): exponential smoothing that also models the trend
+* Trend- and Seasonality-Corrected Exponential Smoothing (Holt-Winter‘s Method): exponential smoothing that also models trend and seasonality
+* Time Series Decomposition: decomposed a time series into the four components trend, seasonal variation, cycling varation and irregular component
+* Autoregressive models: similar to multiple linear regression, except that the dependent variable y_t depends on its own previous values rather than other independent variables.
+* Deep learning approaches (RNN, LSTM, etc.)
 
 <br/>
 
 **If there’s a trend in our series, how we can remove it? And why would we want to do it? ‍⭐️**
 
-Answer here
+We can explicitly model the trend (and/or seasonality) with approaches such as Holt's Method or Holt-Winter's Method. We want to explicitly model the trend to reach the stationarity property for the data. Many time series approaches require stationarity. Without stationarity,the interpretation of the results of these analyses is problematic [Manuca, Radu & Savit, Robert. (1996). Stationarity and nonstationarity in time series analysis. Physica D: Nonlinear Phenomena. 99. 134-161. 10.1016/S0167-2789(96)00139-X. ].
 
 <br/>
 
 **You have a series with only one variable “y” measured at time t. How do predict “y” at time t+1? Which approaches would you use? ‍⭐️**
 
-Answer here
+We want to look at the correlation between different observations of y. This measure of correlation is called autocorrelation. Autoregressive models are multiple regression models where the time-lag series of the original time series are treated like multiple independent variables.
 
 <br/>
 
 **You have a series with a variable “y” and a set of features. How do you predict “y” at t+1? Which approaches would you use? ‍⭐️**
 
-Answer here
+Given the assumption that the set of features gives a meaningful causation to y, a causal forecasting approach such as linear regression or multiple nonlinear regression might be useful. In case there is a lot of data and the explanability of the results is not a high priority, we can also consider deep learning approaches.
 
 <br/>
 
 **What are the problems with using trees for solving time series problems? ‍⭐️**
 
-Answer here
+Random Forest models are not able to extrapolate time series data and understand increasing/decreasing trends. It will provide us with average data points if the validation data has values greater than the training data points.
 
 <br/>
-
 
